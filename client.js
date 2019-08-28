@@ -8,9 +8,15 @@ const connect = function() {
   // interpret incoming data as text
   conn.setEncoding('utf8'); 
 
+  // Send username upon successfully connecting to server
   conn.on('connect', () => {
     console.log('connected to game server...');
     conn.write('Name: SPX');
+
+    // let clearVal = setInterval(() => {
+    //   conn.write('Move: up');
+    // }, 50);
+    
   });
 
   conn.on('data', (data) => {

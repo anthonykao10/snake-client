@@ -28,7 +28,6 @@ const handleUserInput = function(key) {
         connection.write('Move: up');
         currDirection = 'Move: up';
       }, delay);
-      // connection.write('Move: up');
       break;
     case 'a':
       delay = boost ? SPEEDTURBOLR : SPEEDNORMALLR;
@@ -38,7 +37,6 @@ const handleUserInput = function(key) {
         connection.write('Move: left');
         currDirection = 'Move: left';
       }, delay);
-      // connection.write('Move: left');
       break;
     case 's':
       delay = boost ? SPEEDTURBOUD : SPEEDNORMALUD;
@@ -48,7 +46,6 @@ const handleUserInput = function(key) {
         connection.write('Move: down');
         currDirection = 'Move: down';
       }, delay);
-      // connection.write('Move: down');
       break;
     case 'd':
       delay = boost ? SPEEDTURBOLR : SPEEDNORMALLR;
@@ -58,7 +55,6 @@ const handleUserInput = function(key) {
         connection.write('Move: right');
         currDirection = 'Move: right';
       }, delay);
-      // connection.write('Move: right');
       break;
 
     case 'm':
@@ -70,11 +66,13 @@ const handleUserInput = function(key) {
 
     case 'p':
       boost = !boost;
+      // Update delay speed
       if (currDirection === 'Move: up' || currDirection === 'Move: down') {
         delay = boost ? SPEEDTURBOUD : SPEEDNORMALUD;
       } else if (currDirection === 'Move: left' || currDirection === 'Move: right') {
         delay = boost ? SPEEDTURBOLR : SPEEDNORMALLR;
       }
+      // Set new delay
       clearInterval(clearVal);
       clearVal = setInterval(() => {
         connection.write(currDirection);

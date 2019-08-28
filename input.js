@@ -1,8 +1,8 @@
 const { 
-  SPEEDNORMALUD, 
-  SPEEDNORMALLR, 
-  SPEEDTURBOUD, 
-  SPEEDTURBOLR,
+  SPEED_NORMAL_UD, 
+  SPEED_NORMAL_LR, 
+  SPEED_TURBO_UD, 
+  SPEED_TURBO_LR,
   UP,
   DOWN,
   LEFT,
@@ -38,21 +38,21 @@ const handleUserInput = function(key) {
   switch (key) {
     // MOVEMENT
     case 'w':
-      delay = boost ? SPEEDTURBOUD : SPEEDNORMALUD;
+      delay = boost ? SPEED_TURBO_UD : SPEED_NORMAL_UD;
       move(UP);
       break;
     case 'a':
-      delay = boost ? SPEEDTURBOLR : SPEEDNORMALLR;
+      delay = boost ? SPEED_TURBO_LR : SPEED_NORMAL_LR;
 
       move(LEFT);
       break;
     case 's':
-      delay = boost ? SPEEDTURBOUD : SPEEDNORMALUD;
+      delay = boost ? SPEED_TURBO_UD : SPEED_NORMAL_UD;
 
       move(DOWN);
       break;
     case 'd':
-      delay = boost ? SPEEDTURBOLR : SPEEDNORMALLR;
+      delay = boost ? SPEED_TURBO_LR : SPEED_NORMAL_LR;
 
       move(RIGHT);
       break;
@@ -70,9 +70,9 @@ const handleUserInput = function(key) {
       boost = !boost;
       // Update delay speed
       if (currDirection === UP || currDirection === DOWN) {
-        delay = boost ? SPEEDTURBOUD : SPEEDNORMALUD;
+        delay = boost ? SPEED_TURBO_UD : SPEED_NORMAL_UD;
       } else if (currDirection === LEFT || currDirection === RIGHT) {
-        delay = boost ? SPEEDTURBOLR : SPEEDNORMALLR;
+        delay = boost ? SPEED_TURBO_LR : SPEED_NORMAL_LR;
       }
       // Set new delay
       move(currDirection);

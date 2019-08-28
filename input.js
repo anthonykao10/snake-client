@@ -1,4 +1,13 @@
-const { SPEEDNORMALUD, SPEEDNORMALLR, SPEEDTURBOUD, SPEEDTURBOLR } = require('./constants');
+const { 
+  SPEEDNORMALUD, 
+  SPEEDNORMALLR, 
+  SPEEDTURBOUD, 
+  SPEEDTURBOLR,
+  UP,
+  DOWN,
+  LEFT,
+  RIGHT
+} = require('./constants');
 // Stores the active TCP connection object.
 let connection;
 
@@ -18,45 +27,38 @@ let boost = false;
 let delay;
 let currDirection = '';
 
+const move = function(direction) {
+  clearInterval(clearVal);
+  clearVal = setInterval(() => {
+    connection.write(direction);
+    currDirection = direction;
+  }, delay);
+}
+
 const handleUserInput = function(key) {
   switch (key) {
+    // MOVEMENT
     case 'w':
       delay = boost ? SPEEDTURBOUD : SPEEDNORMALUD;
-
-      clearInterval(clearVal);
-      clearVal = setInterval(() => {
-        connection.write('Move: up');
-        currDirection = 'Move: up';
-      }, delay);
+      move(UP);
       break;
     case 'a':
       delay = boost ? SPEEDTURBOLR : SPEEDNORMALLR;
 
-      clearInterval(clearVal);
-      clearVal = setInterval(() => {
-        connection.write('Move: left');
-        currDirection = 'Move: left';
-      }, delay);
+      move(LEFT);
       break;
     case 's':
       delay = boost ? SPEEDTURBOUD : SPEEDNORMALUD;
 
-      clearInterval(clearVal);
-      clearVal = setInterval(() => {
-        connection.write('Move: down');
-        currDirection = 'Move: down';
-      }, delay);
+      move(DOWN);
       break;
     case 'd':
       delay = boost ? SPEEDTURBOLR : SPEEDNORMALLR;
 
-      clearInterval(clearVal);
-      clearVal = setInterval(() => {
-        connection.write('Move: right');
-        currDirection = 'Move: right';
-      }, delay);
+      move(RIGHT);
       break;
 
+    // MESSAGING
     case 'm':
       connection.write('Say: hello');
       break;
@@ -64,19 +66,17 @@ const handleUserInput = function(key) {
       connection.write('Say: bye');
       break;
 
+    // BOOST
     case 'p':
       boost = !boost;
       // Update delay speed
-      if (currDirection === 'Move: up' || currDirection === 'Move: down') {
+      if (currDirection === UP || currDirection === DOWN) {
         delay = boost ? SPEEDTURBOUD : SPEEDNORMALUD;
-      } else if (currDirection === 'Move: left' || currDirection === 'Move: right') {
+      } else if (currDirection === LEFT || currDirection === RIGHT) {
         delay = boost ? SPEEDTURBOLR : SPEEDNORMALLR;
       }
       // Set new delay
-      clearInterval(clearVal);
-      clearVal = setInterval(() => {
-        connection.write(currDirection);
-      }, delay);
+      move(currDirection);
       break;
 
     case '\u0003':

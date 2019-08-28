@@ -11,11 +11,12 @@ const setupInput = function(conn) {
   stdin.resume();
   stdin.on('data', handleUserInput);
   return stdin;
-}
+};
 
 let clearVal;
 let boost = false;
-let delay; 
+let delay;
+let currDirection = '';
 
 const handleUserInput = function(key) {
   switch (key) {
@@ -25,16 +26,18 @@ const handleUserInput = function(key) {
       clearInterval(clearVal);
       clearVal = setInterval(() => {
         connection.write('Move: up');
+        currDirection = 'Move: up';
       }, delay);
       // connection.write('Move: up');
       break;
     case 'a':
       delay = boost ? SPEEDTURBOLR : SPEEDNORMALLR;
 
-        clearInterval(clearVal);
-        clearVal = setInterval(() => {
-          connection.write('Move: left');
-        }, delay);
+      clearInterval(clearVal);
+      clearVal = setInterval(() => {
+        connection.write('Move: left');
+        currDirection = 'Move: left';
+      }, delay);
       // connection.write('Move: left');
       break;
     case 's':
@@ -43,6 +46,7 @@ const handleUserInput = function(key) {
       clearInterval(clearVal);
       clearVal = setInterval(() => {
         connection.write('Move: down');
+        currDirection = 'Move: down';
       }, delay);
       // connection.write('Move: down');
       break;
@@ -52,24 +56,34 @@ const handleUserInput = function(key) {
       clearInterval(clearVal);
       clearVal = setInterval(() => {
         connection.write('Move: right');
+        currDirection = 'Move: right';
       }, delay);
       // connection.write('Move: right');
       break;
 
     case 'm':
-      connection.write('Say: hello');  
-      break; 
+      connection.write('Say: hello');
+      break;
     case 'n':
       connection.write('Say: bye');
-      break;   
+      break;
 
     case 'p':
       boost = !boost;
+      if (currDirection === 'Move: up' || currDirection === 'Move: down') {
+        delay = boost ? SPEEDTURBOUD : SPEEDNORMALUD;
+      } else if (currDirection === 'Move: left' || currDirection === 'Move: right') {
+        delay = boost ? SPEEDTURBOLR : SPEEDNORMALLR;
+      }
+      clearInterval(clearVal);
+      clearVal = setInterval(() => {
+        connection.write(currDirection);
+      }, delay);
       break;
 
     case '\u0003':
       process.exit();
   }
-}
+};
 
-module.exports = {setupInput};
+module.exports = { setupInput };

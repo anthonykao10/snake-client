@@ -2,12 +2,12 @@ const net = require('net');
 const { IP, PORT } = require('./constants');
 
 const connect = function() {
-  const conn = net.createConnection({ 
+  const conn = net.createConnection({
     host: 'localhost',
     port: PORT
   });
   // interpret incoming data as text
-  conn.setEncoding('utf8'); 
+  conn.setEncoding('utf8');
 
   // Send username upon successfully connecting to server
   conn.on('connect', () => {
@@ -20,6 +20,6 @@ const connect = function() {
   });
 
   return conn;
-}
+};
 
 module.exports = {connect};

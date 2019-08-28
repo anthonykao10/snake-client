@@ -10,6 +10,10 @@ const {
 } = require('./constants');
 // Stores the active TCP connection object.
 let connection;
+let clearVal;
+let boost = false;
+let delay;
+let currDirection = '';
 
 // Setup User Interface, to handle user input via stdin
 const setupInput = function(conn) {
@@ -21,11 +25,6 @@ const setupInput = function(conn) {
   stdin.on('data', handleUserInput);
   return stdin;
 };
-
-let clearVal;
-let boost = false;
-let delay;
-let currDirection = '';
 
 const move = function(direction) {
   clearInterval(clearVal);

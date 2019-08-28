@@ -3,4 +3,8 @@ const { connect } = require('./client');
 const { setupInput } = require('./input');
 
 console.log('Connecting ...');
-setupInput(connect());
+try {
+  setupInput(connect());
+} catch (error) {
+  console.log(error);
+}
